@@ -204,14 +204,18 @@ async function sendRollToDiscord(roll: AnyRoll) {
 
   const msg = {
     username: "Blackbirds Roller",
+    avatar_url: "https://api.dicebear.com/6.x/bottts-neutral/png?seed=Angel",
     content: title,
     channel_id: import.meta.env.VITE_DISCORD_CHANNEL_ID,
     embeds: [
       {
         author: {
           name: notes.roller || "Someone",
+          icon_url:
+            "https://api.dicebear.com/6.x/bottts-neutral/png?seed=Angel",
         },
         title: `${rollType}`,
+        url: "http://blackbirdsroller.com/?id=" + roll.id,
         fields,
       },
     ],

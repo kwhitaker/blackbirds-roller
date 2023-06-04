@@ -1,4 +1,5 @@
 import { createQuery } from "@tanstack/solid-query";
+import { omit } from "lodash";
 import { ClientResponseError } from "pocketbase";
 import { BsDice6 } from "solid-icons/bs";
 import { FiLoader, FiX } from "solid-icons/fi";
@@ -35,6 +36,7 @@ const RollDetails = ({
   createEffect(() => {
     if (roll.isError) {
       toast.error(roll.error.message || "Error fetching roll data");
+      onClose();
     }
   });
 
@@ -52,7 +54,7 @@ const RollDetails = ({
             "p-0 rounded shadow-black": true,
           }}
         >
-          <div class="w-full h-full p-0 flex flex-col rounded">
+          <div class="w-full h-full p-0 flex flex-col rounded overflow-hidden">
             <div class="flex items-center justify-between flex-grow-0 bg-cyan-700 text-white px-3 py-2">
               <h2 class="text-lg font-medium flex items-center space-x-2">
                 <span>Roll Details</span> <BsDice6 />
@@ -64,13 +66,22 @@ const RollDetails = ({
 
             <Switch>
               <Match when={roll.isLoading}>
-                <div class="w-full h-full flex items-center justify-center">
+                <div class="w-full h-full flex items-center justify-center flex-grow">
                   <FiLoader class="animate-spin text-gray-300" size={48} />
                 </div>
               </Match>
               <Match when={roll.isSuccess}>
-                <pre class="p-5 text-sm">
-                  {JSON.stringify(roll.data!, null, 2)}
+                <pre class="p-5 text-sm flex-grow overflow-y-scroll">
+                  {JSON.stringify(
+                    omit(roll.data!, [
+                      "collectionId",
+                      "collectionName",
+                      "updated",
+                      "expand",
+                    ]),
+                    null,
+                    2
+                  )}
                 </pre>
               </Match>
             </Switch>

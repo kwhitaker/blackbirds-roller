@@ -1,4 +1,4 @@
-import { Navigate } from "@solidjs/router";
+import { Navigate, useSearchParams } from "@solidjs/router";
 import { createQuery } from "@tanstack/solid-query";
 import {
   ColumnDef,
@@ -8,7 +8,7 @@ import {
 } from "@tanstack/solid-table";
 import { ClientResponseError, ListResult } from "pocketbase";
 import { FiLoader } from "solid-icons/fi";
-import { For, Match, Show, Switch, createEffect, createSignal } from "solid-js";
+import { For, Match, Show, Switch, createEffect } from "solid-js";
 import toast, { Toaster } from "solid-toast";
 import RollDetails from "./RollDetails";
 import { RollModal } from "./RollModal";
@@ -17,10 +17,8 @@ import { ROLLS_COLLECTION } from "./lib/pocketbase";
 import { AnyRoll, DieType, isSkillRoll } from "./lib/types";
 
 const Home = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const user = useUser();
-  const [showDetailsFor, setShowDeatilsFor] = createSignal<
-    string | undefined
-  >();
   const rolls = createQuery<ListResult<AnyRoll>, ClientResponseError>(
     () => [ROLLS_COLLECTION],
     () => getRolls(),
@@ -102,10 +100,10 @@ const Home = () => {
             <div>
               <RollModal />
 
-              <Show when={!!showDetailsFor()}>
+              <Show when={!!searchParams["id"]}>
                 <RollDetails
-                  rollId={showDetailsFor()}
-                  onClose={() => setShowDeatilsFor()}
+                  rollId={searchParams["id"]}
+                  onClose={() => setSearchParams({ id: undefined })}
                 />
               </Show>
 
@@ -144,7 +142,7 @@ const Home = () => {
                         class="even:bg-gray-100 cursor-pointer hover:bg-purple-100"
                         role="button"
                         onClick={() => {
-                          setShowDeatilsFor(r.id);
+                          setSearchParams({ id: r.id });
                         }}
                       >
                         <For each={r.getVisibleCells()}>
