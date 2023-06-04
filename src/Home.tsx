@@ -69,8 +69,15 @@ const Home = () => {
       header: () => "Target",
     },
     {
-      accessorKey: "output.isSuccess",
-      cell: (info) => (info.getValue() ? "Success" : "Failure"),
+      id: "isSuccess",
+      accessorFn: (original) =>
+        isSkillRoll(original.output) ? original.output.isSuccess : "n/a",
+      cell: (info) =>
+        info.getValue() === "n/a"
+          ? "---"
+          : info.getValue()
+          ? "Success"
+          : "Failure",
       header: () => "Success",
     },
   ];

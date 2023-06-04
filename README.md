@@ -1,14 +1,28 @@
+## What is this?
+I'm running a [Blackbirds Game](https://www.amazon.com/Blackbirds-RPG-Powered-ZWEIHANDER/dp/1524869805), and want a quick way to handle rolls.
+This is a little hobby project, but feel free to take it for your own needs, if that floats your boat.
+
+## What does it do?
+1. Quickly rolls skill rolls, damage rolls (exploding), or normal d10 rolls
+2. Saves those rolls to a pocketbase instance
+3. Broadcasts those rolls to a discord channel
+
+## Is this production ready?
+God no. There's a lot of bad UX and stuff I just won't finish. Have fun :smile:
+
+## `.env` file
+```bash
+VITE_PB_URL=your-pocket-base-url
+VITE_DISCORD_WEBHOOK_URL=your-discord-webhook-url
+VITE_DISCORD_CHANNEL_ID=your-discord-channel-id
+```
+
 ## Usage
-
-Those templates dependencies are maintained via [pnpm](https://pnpm.io) via `pnpm up -Lri`.
-
-This is the reason you see a `pnpm-lock.yaml`. That being said, any package manager will work. This file can be safely be removed once you clone a template.
 
 ```bash
 $ npm install # or pnpm install or yarn install
 ```
 
-### Learn more on the [Solid Website](https://solidjs.com) and come chat with us on our [Discord](https://discord.com/invite/solidjs)
 
 ## Available Scripts
 
